@@ -19,7 +19,7 @@
               my-2
               text-sm                                  
               capitalize">
-            {{ product.brand }}
+            {{product.brand.name}}
           </p>
           <ProductQuantityHandlers :product="product" />
         </div>

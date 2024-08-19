@@ -44,9 +44,9 @@
       <div class="col-span-7 ">
         <p class="pb-14">{{ product.name }} </p>
       </div>
-      <p class="absolute left-5 bottom-20">{{ product.brand }}</p>
+      <p class="absolute left-5 bottom-20">{{ product.brand.name }}</p>
       <div class="col-span-5 ">
-        <template v-if="isGroupDiscountAvailable(product)">
+        <!-- <template v-if="isGroupDiscountAvailable(product)">
           <div class="flex gap-2 justify-between pb-5">
             <h1 @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false"
               class="text-secondary-500 dark:text-primary-300 text-sm cursor-pointer">Descuento</h1>
@@ -71,8 +71,9 @@
               v-for="(discount, index) in discountGroups.filter(discount => discount.brands.includes(product.brand))"
               :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : ''" />
           </DropDownBase>
-        </template>
-        <ProductPrice :product="product" class=" text-sm" />
+        </template> -->
+        <!-- <ProductPrice :product="product" class=" text-sm" /> -->
+        <h1 class="flex justify-end">${{ product.price }}</h1>
       </div>
     </div>
     <BasicButton @click="add(product)" class="absolute left-24 sm:left-16 2xl:left-24 bottom-5 px-5 text-sm">Agregar al

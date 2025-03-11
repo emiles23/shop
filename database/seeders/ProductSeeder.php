@@ -25,27 +25,31 @@ class ProductSeeder extends Seeder
                     (object) [
                         'name' => 'Franela',
                         'price' => 12,
+                        'img' => '/img/products/product.jpg',
                     ],
                     (object) [
                         'name' => 'Camisa sin manga',
                         'price' => 12,
+                        'img' => '/img/products/img1.png',
                     ],
                     (object) [
                         'name' => 'Blazer unicolor',
-                        'price' => 11,
+                        'price' => 20,
+                        'img' => '/img/products/img2.png',
                         'discounts' => [
                             (object) [
                                 'value' => 5,
+                                'type' => 1
                             ]
                         ]
                     ],
                     (object) [
                         'name' => 'Pantalones jogger',
-                        'price' => 18,
+                        'price' => 21.6,
+                        'img' => '/img/products/img3.png',
                         'discounts' => [
                             (object) [
-                                'value' => 5,
-                                'type' => 1
+                                'value' => 20,                              
                             ]
                         ]
                     ],
@@ -65,14 +69,17 @@ class ProductSeeder extends Seeder
                     (object) [
                         'name' => '55 pulgadas Smart tv 4k',
                         'price' => 799,
+                        'img' => '/img/products/img4.png',
                     ],
                     (object) [
                         'name' => '32 pulgadas SFire TV Omni Series',
                         'price' => 325,
+                        'img' => '/img/products/img5.png',
                     ],
                     (object) [
                         'name' => '75 pulgadas, clase Crystal UHD, serie AU8000, 4K, UHD, HDR, Smart TV',
                         'price' => 500,
+                        'img' => '/img/products/img5.png',
                     ],
                 ],
 
@@ -91,10 +98,12 @@ class ProductSeeder extends Seeder
                     (object) [
                         'name' => 'AMD Ryzen 5 5600X, RTX 3060, 16GB 3600Mhz',
                         'price' => 300,
+                        'img' => '/img/products/img7.png',
                     ],
                     (object) [
                         'name' => 'Computadora OptiPlex personalizada de escritorio Intel Core i5-6500',
                         'price' => 325,
+                        'img' => '/img/products/img8.png',
                         'discounts' => [
                             (object) [
                                 'value' => 30,
@@ -105,6 +114,7 @@ class ProductSeeder extends Seeder
                     (object) [
                         'name' => 'procesador Intel Core i7-11700F, GeForce RTX 3060, 32 GB de RAM, 1 TB ',
                         'price' => 600,
+                        'img' => '/img/products/img9.png',
                     ],
                 ],
 
@@ -123,14 +133,17 @@ class ProductSeeder extends Seeder
                     (object) [
                         'name' => 'Zapatos deportivos de correr para hombre',
                         'price' => 300,
+                        'img' => '/img/products/img10.png',
                     ],
                     (object) [
                         'name' => 'Tenis para correr para mujer',
                         'price' => 150,
+                        'img' => '/img/products/img11.png',
                     ],
                     (object) [
                         'name' => 'Zapatos planos Belice estilo ballet para mujer',
                         'price' => 185,
+                        'img' => '/img/products/img12.png',
                     ],
 
                 ],
@@ -150,14 +163,17 @@ class ProductSeeder extends Seeder
                     (object) [
                         'name' => 'Plancha De Cabello Professional 450°F, plancha de pelo de cerámica ',
                         'price' => 260,
+                        'img' => '/img/products/img13.png',
                     ],
                     (object) [
                         'name' => 'Conair Plancha plana de cerámica doble, 1 pulgada',
                         'price' => 200,
+                        'img' => '/img/products/img14.png',
                     ],
                     (object) [
                         'name' => 'Titanium Ionic Hair Straightener, Professional Flat Iron For All Hair+ Types',
                         'price' => 100,
+                        'img' => '/img/products/img15.png',
                     ],
                 ],
                 'discounts' => [

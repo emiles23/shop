@@ -12,14 +12,7 @@
          group-hover:opacity-75
          h-72
          sm:h-80">
-      <img @click="() => {
-        $router.push({
-          name: 'Producto',
-          params: {
-            id: product.id
-          }
-        })
-      }" :src="product.img" class=" 
+      <img @click="false" :src="product.img" class=" 
         h-full 
         w-full 
         object-cover 
@@ -38,15 +31,31 @@
         grid-cols-12  
         text-secondary-600 
         dark:text-primary-300
-        text-base
-        
+        text-base  
         capitalize">
-      <div class="col-span-7 ">
+      <div class="col-span-7">
         <p class="pb-14">{{ product.name }} </p>
+        <p class="absolute left-5 bottom-20">{{ product.brand.name }}</p>
       </div>
-      <p class="absolute left-5 bottom-20">{{ product.brand.name }}</p>
-      <div class="col-span-5 ">
-        <!-- <template v-if="isGroupDiscountAvailable(product)">
+
+      <div class="col-span-3 text-end w-36 pr-5">
+        <div v-if="hasDiscount" class="flex justify-end gap-x-3">
+          <!-- 1. Precio tachado (antiguo) -->
+          <p class="line-through decoration text-secondary-400">
+            ${{ product.price }}
+          </p>
+          <!-- 2. Descuento -->
+          <p class="text-red-500">
+            {{ getDiscountRepresentation(discount) }}
+          </p>
+        </div>
+        <!-- 3. Precio con descuento aplicado -->
+        <p>
+          ${{ discountedPrice }}
+        </p>
+      </div>
+
+      <!-- <template v-if="isGroupDiscountAvailable(product)">
           <div class="flex gap-2 justify-between pb-5">
             <h1 @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false"
               class="text-secondary-500 dark:text-primary-300 text-sm cursor-pointer">Descuento</h1>
@@ -72,9 +81,16 @@
               :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : ''" />
           </DropDownBase>
         </template> -->
-        <!-- <ProductPrice :product="product" class=" text-sm" /> -->
-        <h1 class="flex justify-end">${{ product.price }}</h1>
-      </div>
+
+
+
+
+
+      <!-- <div 
+         class="font-medium text-secondary-800 dark:text-primary-300  ">  
+        </div> -->
+
+
     </div>
     <BasicButton @click="add(product)" class="absolute left-24 sm:left-16 2xl:left-24 bottom-5 px-5 text-sm">Agregar al
       Carrito</BasicButton>
@@ -86,16 +102,8 @@
 
 import DropDownBase from '@/Components/DropDownBase.vue';
 import BasicButton from '@/Components/BasicButton.vue'
-import ProductPrice from '@/Components/ProductPrice.vue'
 import TextDiscountGroups from '@/Components/TextDiscountGroups.vue';
 import Question from '@/Components/icons/Question.vue';
-
-
-//  'pinia'
-import { mapActions, mapState, mapWritableState } from 'pinia'
-import { useShoppingCartStoreStore } from "../store/shoppingCartStore.js"
-import { useDefinitionsStore } from "../store/definitions.js"
-import { useTabsStore } from "../store/tabs.js"
 
 export default {
 
@@ -103,15 +111,14 @@ export default {
     DropDownBase,
     Question,
     TextDiscountGroups,
-    ProductPrice,
     BasicButton
   },
 
   props: {
     product: {
-      default: {},
+      type: Object,
+      required: true,
     },
-
   },
 
   data() {
@@ -120,18 +127,59 @@ export default {
     }
   },
 
-
   methods: {
-    ...mapActions(useShoppingCartStoreStore, ['add']),
-    isGroupDiscountAvailable(product) {
-      return this.discountGroups.find(group => group.brands.includes(product.brand)) ? true : false
+    getProductDiscount(product) {
+      const value = discounts[0].value;
+      return
+    },
+
+    getDiscountRepresentation(discount) {
+      var textDiscount = '-'
+      var value = discount.value
+
+      if (discount.type === 1) {
+        textDiscount += `$${value}`
+      }
+      else {
+        textDiscount += `${Math.round(value)}%`;
+      }
+      return textDiscount
     },
   },
 
   computed: {
-    ...mapState(useDefinitionsStore, ['discounts', 'discountGroups']),
-    ...mapWritableState(useTabsStore, ['currentTab', 'tabs']),
-  }
+
+    discount() {
+      return this.product.discounts[0];
+    },
+
+    // Verifica si hay descuento
+    hasDiscount() {
+      return this.product.discounts.length > 0;
+    },
+
+    // Obtiene el valor del descuento (fijo o porcentual)
+    discountValue() {
+      if (!this.hasDiscount) return 0;
+
+      const discount = this.discount; // Siempre hay un único descuento
+      if (discount.type === 1) {
+        // Descuento fijo
+        return discount.value;
+      } else if (discount.type === 0) {
+        // Descuento porcentual
+        return (this.product.price * discount.value) / 100;
+      }
+      return 0;
+    },
+
+    // Calcula el precio con el descuento aplicado
+    discountedPrice() {
+      if (!this.hasDiscount) return this.product.price;
+      const endPrice = this.product.price - this.discountValue;
+      return endPrice.toFixed(2);
+    },
+  },
 }
 </script>
 

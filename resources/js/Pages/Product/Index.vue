@@ -49,13 +49,13 @@ export default {
         ...mapActions(useDefinitionsStore, ['getProductDiscount'])
     },
 
-    computed: {
-        ...mapState(useDefinitionsStore, [
-            'discounts', 
-            'discountGroups', 
-            // 'products', 
-            // 'productsWithDicount'
-        ]),
-    }
+    // computed: {
+    //     ...mapState(useDefinitionsStore, [
+    //         'discounts', 
+    //         'discountGroups', 
+    //         // 'products', 
+    //         // 'productsWithDicount'
+    //     ]),
+    // }
 }
 </script>

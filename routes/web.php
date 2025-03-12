@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CartController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -23,6 +24,14 @@ Route::middleware([
         return Inertia::render('Dashboard');
     })->name('dashboard');
 
+    // Mostrar el carrito
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+
+    // Agregar un producto al carrito
+    Route::post('/cart', [CartController::class, 'store'])->name('cart.store');
+
+    // Eliminar un producto del carrito
+    Route::delete('/cart/{id}', [CartController::class, 'destroy'])->name('cart.destroy');
 });
 
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');

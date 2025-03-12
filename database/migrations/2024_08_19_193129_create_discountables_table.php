@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('discount_id');
-            $table->foreignId('discountable_id');
-            $table->string('discountable_type');
+            $table->morphs('discountable');
         });
     }
 

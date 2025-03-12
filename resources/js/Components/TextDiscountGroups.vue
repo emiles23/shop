@@ -14,8 +14,7 @@
 </template>
 
 <script>
-import { mapActions } from 'pinia'
-import { useDefinitionsStore } from "../store/definitions.js"
+
 export default {
   props: {
     discount: {
@@ -29,13 +28,21 @@ export default {
   },
 
   methods: {
-    ...mapActions(useDefinitionsStore, ['getDiscountGroupsRepresentation']),
+
+    getDiscountGroupsRepresentation(discount) {
+      var textDiscount = '-'
+
+      if (discount?.type === 'flat') {
+        textDiscount += `$${discount.value}`
+      }
+      else {
+        textDiscount += `${discount.value}%`
+      }
+
+      return textDiscount
+    },
+
   },
-
-  mounted(){
-
-    // console.log(this.discount)
-  }
 
 }
 </script>

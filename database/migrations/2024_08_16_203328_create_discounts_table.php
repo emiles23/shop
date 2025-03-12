@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->string('name')->nullable();
             $table->decimal('value', total: 8, places: 2);
+            $table->decimal('min', total: 8, places: 2)->default(0);
             $table->integer('type')->default(0);
         });
     }

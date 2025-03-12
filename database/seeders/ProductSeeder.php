@@ -18,6 +18,22 @@ class ProductSeeder extends Seeder
     public function run(): void
     {
         // DB::table('products')->insert([]);
+        // $discountGroups = [
+        //     [
+        //         'brands' => ['Shein', 'Rucha', 'Adidas'],
+        //         'quantity' => 3,
+        //         'value' => 5,
+        //         'min' => 400           
+        //     ],
+        //     [
+        //         'brands' => ['Samsung', 'Adidas', 'Shein'],
+        //         'quantity' => 2,
+        //         'value' => 200,
+        //         'min' => 1500,
+        //         'type' => 1
+        //     ]
+        // ];
+
         $brands = [
             (object) [
                 'name' => 'Shein',
@@ -57,7 +73,7 @@ class ProductSeeder extends Seeder
 
                 'discounts' => [
                     (object) [
-                        // 'min' => 45,
+                        'min' => 45,
                         'value' => 30,
                     ]
                 ]
@@ -85,7 +101,7 @@ class ProductSeeder extends Seeder
 
                 'discounts' => [
                     (object) [
-                        // 'min' => 1000,
+                        'min' => 1000,
                         'value' => 10,
                     ]
                 ]
@@ -120,7 +136,7 @@ class ProductSeeder extends Seeder
 
                 'discounts' => [
                     (object) [
-                        // 'min' => 800,
+                        'min' => 800,
                         'value' => 12,
                     ]
                 ]
@@ -150,7 +166,7 @@ class ProductSeeder extends Seeder
 
                 'discounts' => [
                     (object) [
-                        // 'min' => 300,
+                        'min' => 300,
                         'value' => 15,
                     ]
                 ]
@@ -178,7 +194,7 @@ class ProductSeeder extends Seeder
                 ],
                 'discounts' => [
                     (object) [
-                        // 'min' => 100,
+                        'min' => 100,
                         'value' => 5,
                     ]
                 ]

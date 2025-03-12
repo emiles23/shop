@@ -39,6 +39,30 @@
       </div>
 
       <div class="col-span-3 text-end w-36 pr-5">
+        <!-- Descuento -->
+        <div class="flex justify-end gap-3 pb-5">
+          <h1 @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false"
+            class="text-secondary-500 dark:text-primary-300 text-sm cursor-pointer">Descuento</h1>
+          <Question @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false" class="    
+                h-5 
+                p-1 
+                text-gray-500 
+                bg-gray-200 
+                shadow-lg 
+                rounded-full 
+                cursor-pointer 
+                hover:bg-gray-300 " />
+        </div>
+
+        <DropDownBase v-if="showDiscountDropDown" class="
+              absolute 
+              origin-top-right 
+              right-0 
+              z-10
+              mt-8 ">
+        </DropDownBase>
+
+        <!-- Precio -->
         <div v-if="hasDiscount" class="flex justify-end gap-x-3">
           <!-- 1. Precio tachado (antiguo) -->
           <p class="line-through decoration text-secondary-400">
@@ -55,45 +79,28 @@
         </p>
       </div>
 
-      <!-- <template v-if="isGroupDiscountAvailable(product)">
-          <div class="flex gap-2 justify-between pb-5">
-            <h1 @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false"
-              class="text-secondary-500 dark:text-primary-300 text-sm cursor-pointer">Descuento</h1>
-            <Question @mouseover="showDiscountDropDown = true" @mouseleave="showDiscountDropDown = false" class="    
-                h-5 
-                p-1 
-                text-gray-500 
-                bg-gray-200 
-                shadow-lg 
-                rounded-full 
-                cursor-pointer 
-                hover:bg-gray-300 " />
-          </div>
-          <DropDownBase v-if="showDiscountDropDown" class="
-              absolute 
-              origin-top-right 
-              right-0 
-              z-10
-              mt-8 ">
-
-            <TextDiscountGroups
-              v-for="(discount, index) in discountGroups.filter(discount => discount.brands.includes(product.brand))"
-              :key="index" :discount="discount" :class="index % 2 == 1 ? 'py-3' : ''" />
-          </DropDownBase>
-        </template> -->
 
 
-
-
-
-      <!-- <div 
+      <!-- 
+      <div 
          class="font-medium text-secondary-800 dark:text-primary-300  ">  
         </div> -->
 
 
     </div>
-    <BasicButton @click="add(product)" class="absolute left-24 sm:left-16 2xl:left-24 bottom-5 px-5 text-sm">Agregar al
-      Carrito</BasicButton>
+    <!-- <BasicButton @click="add(product)" class="absolute left-24 sm:left-16 2xl:left-24 bottom-5 px-5 text-sm">Agregar al
+      Carrito</BasicButton> -->
+
+      <Link
+          :href="route('cart.store')"
+          method="post"
+          :data="{ product_id: product.id, quantity: 1 }"
+          as="button"
+          class="btn btn-primary"
+          preserve-scroll
+        >
+          Agregar al carrito
+        </Link>
   </div>
   <!-- More products... -->
 </template>
@@ -105,13 +112,16 @@ import BasicButton from '@/Components/BasicButton.vue'
 import TextDiscountGroups from '@/Components/TextDiscountGroups.vue';
 import Question from '@/Components/icons/Question.vue';
 
+import { Link } from '@inertiajs/vue3';
+
 export default {
 
   components: {
     DropDownBase,
     Question,
     TextDiscountGroups,
-    BasicButton
+    BasicButton,
+    Link,
   },
 
   props: {
@@ -128,10 +138,10 @@ export default {
   },
 
   methods: {
-    getProductDiscount(product) {
-      const value = discounts[0].value;
-      return
-    },
+    // getProductDiscount(product) {
+    //   const value = discounts[0].value;
+    //   return
+    // },
 
     getDiscountRepresentation(discount) {
       var textDiscount = '-'

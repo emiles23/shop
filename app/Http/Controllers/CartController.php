@@ -47,14 +47,27 @@ class CartController extends Controller
         // Obtener el producto
         $product = Product::findOrFail($request->product_id);
 
-        // Crear un nuevo registro en el carrito
-        Cart::create([
-            'user_id' => Auth::id(),
-            'product_id' => $product->id,
-            'quantity' => $request->quantity,
-            'price' => $product->price, // Asumimos que el precio del producto es fijo
-        ]);
-        // dd('hola');
+        // dd($product);
+        $discountedPrice = $product->price - $product->discountValue();
+
+        $cart = Cart::where('product_id', $product->id)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if ($cart) {
+
+            $cart->quantity += $request->quantity;
+            $cart->save();
+        } else {
+            // Crear un nuevo registro en el carrito
+            Cart::create([
+                'user_id' => Auth::id(),
+                'product_id' => $product->id,
+                'quantity' => $request->quantity,
+                'price' => $discountedPrice, // Asumimos que el precio del producto es fijo           
+            ]);
+        }
+
         // Redirigir de vuelta a la vista de productos con un mensaje de éxito
         return redirect()->back()->with('success', 'Producto agregado al carrito.');
     }

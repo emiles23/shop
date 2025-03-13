@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = ['name', 'price', 'brand_id'];
 
     protected $with = ['brand.discounts', 'discounts', 'discount'];
@@ -36,7 +36,33 @@ class Product extends Model
             'id',                  // Local key on the Product table
             'discount_id'          // Local key on Discountable table
         )
-        ->where('discountables.discountable_type', Product::class)
-        ->orderBy('discountables.created_at', 'desc');
+            ->where('discountables.discountable_type', Product::class)
+            ->orderBy('discountables.created_at', 'desc');
     }
+
+    // Obtener el descuento 
+
+    public function discountValue()
+    {
+        $discount = $this->discount()->first();
+        // dd($discount);
+        // Si no hay descuento, retornar 0
+        if (! $discount) {
+            return 0;
+        }
+
+        // Verificar el tipo de descuento
+        if ($discount->type === 1) {
+            // Descuento fijo
+            return $discount->value;
+        } elseif ($discount->type === 0) {
+            // Descuento porcentual
+            return ($this->price * $discount->value) / 100;
+        }
+
+        // Si no coincide con ningún tipo, retornar 0
+        return 0;
+    }
+
+    // Obtener la cantidad de producto agregado
 }

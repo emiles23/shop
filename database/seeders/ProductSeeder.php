@@ -74,7 +74,8 @@ class ProductSeeder extends Seeder
                 'discounts' => [
                     (object) [
                         'min' => 45,
-                        'value' => 30,
+                        'value' => 3,
+                        'type' => 1
                     ]
                 ]
             ],

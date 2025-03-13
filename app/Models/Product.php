@@ -40,6 +40,11 @@ class Product extends Model
             ->orderBy('discountables.created_at', 'desc');
     }
 
+    public function carts()
+    {
+        return $this->hasMany(Cart::class);
+    }
+
     // Obtener el descuento 
 
     public function discountValue()
@@ -63,6 +68,4 @@ class Product extends Model
         // Si no coincide con ningún tipo, retornar 0
         return 0;
     }
-
-    // Obtener la cantidad de producto agregado
 }

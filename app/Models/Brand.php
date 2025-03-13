@@ -12,9 +12,20 @@ class Brand extends Model
     
     protected $fillable = ['name'];
 
+    protected $with = ['discounts', 'carts'];
 
     public function discounts(): MorphToMany
     {
         return $this->morphToMany(Discount::class, 'discountable');
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
+    }
+
+    public function carts()
+    {
+        return $this->hasManyThrough(Cart::class, Product::class);
     }
 }

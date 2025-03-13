@@ -9,6 +9,8 @@ class Cart extends Model
 {
     use HasFactory;
 
+    // protected $with = ['product'];
+
     /**
      * Los atributos que son asignables en masa.
      *

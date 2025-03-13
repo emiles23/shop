@@ -79,28 +79,31 @@
         </p>
       </div>
 
-
-
-      <!-- 
-      <div 
-         class="font-medium text-secondary-800 dark:text-primary-300  ">  
-        </div> -->
-
-
     </div>
-    <!-- <BasicButton @click="add(product)" class="absolute left-24 sm:left-16 2xl:left-24 bottom-5 px-5 text-sm">Agregar al
-      Carrito</BasicButton> -->
+    <Link :href="route('cart.store')" method="post" :data="{ product_id: product.id, quantity: 1 }" as="button"
+      preserve-scroll class="btn btn-primary 
+        absolute 
+        sm:
+        left-16 
+        2xl:left-24 
+        bottom-5 px-5 
+        text-sm     
+        py-1
+        rounded-md 
+        border 
+        shadow-sm 
+        text-secondary-800 
+        border-primary-300        
+        dark:border-gray-800
+        dark:bg-secondary-1000
+        hover:bg-primary-100
+        dark:hover:bg-secondary-800
+        dark:text-primary-300
+        flex gap-3">
+    Agregar al carrito
+    </Link>
 
-      <Link
-          :href="route('cart.store')"
-          method="post"
-          :data="{ product_id: product.id, quantity: 1 }"
-          as="button"
-          class="btn btn-primary"
-          preserve-scroll
-        >
-          Agregar al carrito
-        </Link>
+    <!-- <LoginForm/> este es el formulario personalizado de login -->
   </div>
   <!-- More products... -->
 </template>
@@ -111,6 +114,7 @@ import DropDownBase from '@/Components/DropDownBase.vue';
 import BasicButton from '@/Components/BasicButton.vue'
 import TextDiscountGroups from '@/Components/TextDiscountGroups.vue';
 import Question from '@/Components/icons/Question.vue';
+// import LoginForm from "@/Components/LoginForm.vue";
 
 import { Link } from '@inertiajs/vue3';
 
@@ -122,6 +126,7 @@ export default {
     TextDiscountGroups,
     BasicButton,
     Link,
+    // LoginForm
   },
 
   props: {

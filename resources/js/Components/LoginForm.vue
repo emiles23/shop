@@ -12,10 +12,11 @@
 
 <script>
 
-import BasicForm from "../components/BasicForm.vue";
-import BasicButton from "../components/BasicButton.vue";
-import GoogleIcon from "../components/icons/Google.vue";
-import GithubIcon from "../components/icons/GitHub.vue";
+import BasicForm from "@/Components/BasicForm.vue";
+import BasicButton from "@/Components/BasicButton.vue";
+import GoogleIcon from "@/Components/icons/Google.vue";
+import GithubIcon from "@/Components/icons/GitHub.vue";
+
 
 export default {
 

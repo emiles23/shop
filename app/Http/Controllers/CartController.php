@@ -75,32 +75,32 @@ class CartController extends Controller
         })
             ->get();
 
-        $subtotal =  $this->calculateTotal();
         $total = 0;
-        
+
         foreach ($brands as $brand) {
-            $totalBybrand = 0;
+            // Calcular el subtotal de la marca
+            $totalByBrand = 0;
             foreach ($brand->carts as $cart) {
-                $totalBybrand +=  $cart->price * $cart->quantity;
+                $totalByBrand += $cart->price * $cart->quantity;
             }
+            // Aplicar descuentos a la marca
             foreach ($brand->discounts as $discount) {
-               
-                if ($totalBybrand >=  $discount->min) {
+                if ($totalByBrand >= $discount->min) {
                     if ($discount->type === 1) {
                         // Descuento fijo
-                        $total += $subtotal - $discount->value ;
+                        $totalByBrand -= $discount->value;
                     } elseif ($discount->type === 0) {
                         // Descuento porcentual
-                        $total += $subtotal - ($subtotal * $discount->value) / 100 ;
+                        $totalByBrand -= ($totalByBrand * $discount->value) / 100;
                     }
-                }else $total += $subtotal;
+                }
             }
+            // Sumar el subtotal de la marca al total general
+            $total += $totalByBrand;
+            dd($total);
         }
 
 
-        // dd($brands->toArray());
-        // dd($totalBybrand);
-        // Calcular el total a pagar
 
 
         // debuguiar
@@ -110,20 +110,6 @@ class CartController extends Controller
         // return response()->json([
         //     'message' => 'Producto agregado al carrito.',
         //     'total' => $total,
-        // ]);
-
-        //Retornar una respuesta con el precio con descuento aplicado
-        // return response()->json([
-        //     'message' => 'Precio con descuento.',
-        //     'total' => $discountedPrice,
-        // ]);
-
-
-        // Retornar una respuesta  'arreglo' con las marcas aplicadas
-        // $brand = $this->groupProductsByBrand();
-        // return response()->json([
-        //     'message' => 'Productos por marcas',
-        //     'arreglo' => $brand,
         // ]);
 
         // Redirigir de vuelta a la vista de productos con un mensaje de éxito
@@ -140,82 +126,8 @@ class CartController extends Controller
         foreach ($cartItems as $item) {
             $total += $item->price * $item->quantity;
         }
-
         return $total;
     }
-
-    // agrupar los productos por marac
-    // public function groupProductsByBrand()
-    // {
-    //     // Obtener el ID del usuario autenticado
-    //     $userId = Auth::id();
-
-    //     // Obtener los productos en el carrito del usuario con sus relaciones
-    //     $cartItems = Cart::with(['product.brand'])
-    //         ->where('user_id', $userId)
-    //         ->get();
-
-    //     // Agrupar los productos por marca
-    //     $groupedByBrand = [];
-
-    //     foreach ($cartItems as $item) {
-    //         $brandName = $item->product->brand->name; // Nombre de la marca
-    //         $productName = $item->product->name;      // Nombre del producto
-    //         $quantity = $item->quantity;              // Cantidad del producto
-    //         $price = $item->price;                   // Precio con descuento
-
-    //         // Si la marca no existe en el arreglo, la inicializamos
-    //         if (!isset($groupedByBrand[$brandName])) {
-    //             $groupedByBrand[$brandName] = [
-    //                 'products' => [],
-    //                 'total' => 0,
-    //             ];
-    //         }
-
-    //         // Agregar el producto a la marca correspondiente
-    //         $groupedByBrand[$brandName]['products'][] = [
-    //             'name' => $productName,
-    //             'quantity' => $quantity,
-    //             'price' => $price,
-    //         ];
-
-    //         // Sumar al total de la marca
-    //         $groupedByBrand[$brandName]['total'] += $price * $quantity;
-    //     }
-    //     // $discountedPrice = $product->price - $product->discountValue();
-
-    //     // //    Retornar una respuesta con el total
-    //     // return response()->json([
-    //     //     'message' => 'Producto agregado al carrito.',
-    //     //     'total' => $groupedByBrand,
-    //     // ]);
-    //     return $groupedByBrand;
-    // }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // public function calculateSubtotalByBrand($product, $cart)
-    // {
-    //     $totalConDescuentosProductos = 0;
-    //     foreach ($cart->product_id as $product) {
-    //         $totalConDescuentosProductos += discountValue();
-    //     }
-    // }
-
-
-
-    // dd(calculateTotal());
     /**
      * Elimina un producto del carrito.
      */

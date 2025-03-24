@@ -69,38 +69,51 @@ class CartController extends Controller
             ]);
         }
 
-        $userId = Auth::id();
-        $brands = Brand::whereHas('products.carts', function ($query) use ($userId) {
-            $query->where('user_id', $userId); // Filtrar por el ID del usuario
-        })
-            ->get();
+        // Obtener todos los productos en el carrito del usuario autenticado
+        $cartItems = Cart::where('user_id', Auth::id())->get();
 
         $total = 0;
+        $userId = Auth::id();
 
+        // Primero calculamos el total sin descuentos
+        foreach ($cartItems as $item) {
+            $total += $item->price * $item->quantity;
+        }
+
+        // Obtenemos las marcas que tienen productos en el carrito
+        $brands = Brand::whereHas('products.carts', function ($query) use ($userId) {
+            $query->where('user_id', $userId);
+        })->get();
+
+        // Aplicamos descuentos por marca
         foreach ($brands as $brand) {
-            // Calcular el subtotal de la marca
             $totalByBrand = 0;
-            foreach ($brand->carts as $cart) {
-                $totalByBrand += $cart->price * $cart->quantity;
-            }
-            // Aplicar descuentos a la marca
-            foreach ($brand->discounts as $discount) {
-                if ($totalByBrand >= $discount->min) {
-                    if ($discount->type === 1) {
-                        // Descuento fijo
-                        $totalByBrand -= $discount->value;
-                    } elseif ($discount->type === 0) {
-                        // Descuento porcentual
-                        $totalByBrand -= ($totalByBrand * $discount->value) / 100;
+
+            // Calculamos el subtotal para esta marca
+            foreach ($brand->products as $product) {
+                foreach ($product->carts as $cartItem) {
+                    if ($cartItem->user_id == $userId) {
+                        $totalByBrand += $cartItem->price * $cartItem->quantity;
                     }
                 }
             }
-            // Sumar el subtotal de la marca al total general
-            $total += $totalByBrand;
-            dd($total);
+
+            // Aplicamos descuentos a este subtotal de marca
+            foreach ($brand->discounts as $discount) {
+                if ($totalByBrand >= $discount->min) {
+                    if ($discount->type === 1) { // Descuento fijo
+                        $total -= $discount->value;
+                    } elseif ($discount->type === 0) { // Descuento porcentual
+                        $total -= ($totalByBrand * $discount->value) / 100;
+                    }
+                }
+            }
         }
 
+        // Mostrar el total final con todos los descuentos aplicados
+        dd($total,  $totalByBrand); // <-- AQUÍ PUEDES COLOCAR EL dd() PARA VER EL RESULTADO
 
+        // Ahora $total contiene el monto correcto con los descuentos aplicados
 
 
         // debuguiar
@@ -116,18 +129,18 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Producto agregado al carrito.');
     }
 
-    public function calculateTotal()
-    {
-        // Obtener todos los productos en el carrito del usuario autenticado
-        $cartItems = Cart::where('user_id', Auth::id())->get();
+    // public function calculateTotal()
+    // {
+    //     // Obtener todos los productos en el carrito del usuario autenticado
+    //     $cartItems = Cart::where('user_id', Auth::id())->get();
 
-        // Calcular el total
-        $total = 0;
-        foreach ($cartItems as $item) {
-            $total += $item->price * $item->quantity;
-        }
-        return $total;
-    }
+    //     // Calcular el total
+    //     $total = 0;
+    //     foreach ($cartItems as $item) {
+    //         $total += $item->price * $item->quantity;
+    //     }
+    //     return $total;
+    // }
     /**
      * Elimina un producto del carrito.
      */
